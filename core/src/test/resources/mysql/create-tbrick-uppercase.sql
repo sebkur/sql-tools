@@ -1,0 +1,9 @@
+CREATE TABLE `tbrick` (
+  `ID` INT(10) NOT NULL AUTO_INCREMENT,
+  `identifier` VARCHAR(255) DEFAULT NULL,
+  `beschreibung` LONGTEXT,
+  `flag_linkuse` TINYINT(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  KEY `identifier` (`identifier`),
+  KEY `ID` (`ID`)
+) ENGINE=INNODB AUTO_INCREMENT=1171 DEFAULT CHARSET=LATIN1;
