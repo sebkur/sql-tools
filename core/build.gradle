@@ -3,7 +3,19 @@ if (project.hasProperty("topobyte")) {
         + '/.gradle/topobyte.gradle'
 }
 
+apply plugin: 'antlr'
+
 dependencies {
     compile 'com.github.jsqlparser:jsqlparser:3.1'
     testCompile 'junit:junit:4.13'
+
+    antlr 'org.antlr:antlr4:4.6'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs += ["${buildDir}/generated-src/antlr/main"]
+        }
+    }
 }
