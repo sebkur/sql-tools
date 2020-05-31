@@ -25,8 +25,11 @@ THE SOFTWARE.
 
 parser grammar MySqlParser;
 
-options { tokenVocab=MySqlLexer; }
+options { tokenVocab='de/mobanisto/antlr/mysql/MySqlLexer'; }
 
+@header {
+package de.mobanisto.antlr.mysql;
+}
 
 // Top Level Description
 

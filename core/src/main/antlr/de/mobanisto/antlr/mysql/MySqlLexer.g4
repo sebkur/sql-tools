@@ -25,6 +25,10 @@ THE SOFTWARE.
 
 lexer grammar MySqlLexer;
 
+@header {
+package de.mobanisto.antlr.mysql;
+}
+
 channels { MYSQLCOMMENT, ERRORCHANNEL }
 
 // SKIP
