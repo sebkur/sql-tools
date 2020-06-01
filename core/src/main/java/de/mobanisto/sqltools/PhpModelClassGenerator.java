@@ -31,15 +31,17 @@ public class PhpModelClassGenerator
 	{
 		buffer = new StringBuilder();
 
-		String tableName = className(create.getTable().getName());
+		String className = className(create.getTable().getName());
 
 		a("<?php" + nl + nl);
-		a("class " + tableName + nl);
+		a("class " + className + nl);
 		a("{" + nl);
 		a(nl);
 
+		List<String> columnNames = new ArrayList<>();
 		List<String> variableNames = new ArrayList<>();
 		for (ColumnDefinition definition : create.getColumnDefinitions()) {
+			columnNames.add(columnName(definition.getColumnName()));
 			variableNames.add(variableName(definition.getColumnName()));
 		}
 
@@ -69,6 +71,30 @@ public class PhpModelClassGenerator
 		a("    }" + nl);
 		a(nl);
 
+		a("    /** @var DB_PD $handle */");
+		a(nl);
+		a("    public static function from_handle($handle)");
+		a(nl);
+		a("    {" + nl);
+		for (int i = 0; i < variableNames.size(); i++) {
+			String variable = variableNames.get(i);
+			String columnName = columnNames.get(i);
+			a(String.format("        $%s = $handle->f(\"%s\");", variable,
+					columnName));
+			a(nl);
+		}
+		a(String.format("        return new %s(", className));
+		for (int i = 0; i < variableNames.size(); i++) {
+			a("$");
+			a(variableNames.get(i));
+			if (i != variableNames.size() - 1) {
+				a(", ");
+			}
+		}
+		a(");" + nl);
+		a("    }" + nl);
+		a(nl);
+
 		a("}");
 
 		return buffer.toString();
@@ -85,6 +111,11 @@ public class PhpModelClassGenerator
 		String first = base.substring(0, 1);
 		String remainder = base.substring(1);
 		return first.toUpperCase() + remainder;
+	}
+
+	private String columnName(String columnName)
+	{
+		return unpackBackticks(columnName);
 	}
 
 	private String variableName(String columnName)
