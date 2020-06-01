@@ -1,4 +1,4 @@
-package de.mobanisto.sqltools;
+package de.mobanisto.sqltools.jsqlparser;
 
 import java.io.InputStream;
 import java.util.List;
