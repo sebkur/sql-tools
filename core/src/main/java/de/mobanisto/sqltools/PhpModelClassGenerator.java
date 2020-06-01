@@ -27,16 +27,33 @@ public class PhpModelClassGenerator
 		buffer.append(string);
 	}
 
+	private void l(String string)
+	{
+		buffer.append(string);
+		buffer.append(nl);
+	}
+
+	private void af(String string, Object... args)
+	{
+		buffer.append(String.format(string, args));
+	}
+
+	private void lf(String string, Object... args)
+	{
+		buffer.append(String.format(string, args));
+		buffer.append(nl);
+	}
+
+	private void nl()
+	{
+		buffer.append(nl);
+	}
+
 	public String generate()
 	{
 		buffer = new StringBuilder();
 
 		String className = className(create.getTable().getName());
-
-		a("<?php" + nl + nl);
-		a("class " + className + nl);
-		a("{" + nl);
-		a(nl);
 
 		List<String> columnNames = new ArrayList<>();
 		List<String> variableNames = new ArrayList<>();
@@ -45,14 +62,17 @@ public class PhpModelClassGenerator
 			variableNames.add(variableName(definition.getColumnName()));
 		}
 
+		l("<?php");
+		nl();
+		l("class " + className);
+		l("{");
+		nl();
+
 		for (String variable : variableNames) {
-			a("    public $");
-			a(variable);
-			a(";");
-			a(nl);
+			lf("    public $%s;", variable);
 		}
 
-		a(nl);
+		nl();
 		a("    public function __construct(");
 		for (int i = 0; i < variableNames.size(); i++) {
 			a("$");
@@ -62,28 +82,23 @@ public class PhpModelClassGenerator
 			}
 		}
 		a(")");
-		a(nl);
-		a("    {" + nl);
+		nl();
+		l("    {");
 		for (String variable : variableNames) {
-			a(String.format("        $this->%s = $%s;", variable, variable));
-			a(nl);
+			lf("        $this->%s = $%s;", variable, variable);
 		}
-		a("    }" + nl);
-		a(nl);
+		l("    }");
+		nl();
 
-		a("    /** @var DB_PD $handle */");
-		a(nl);
-		a("    public static function from_handle($handle)");
-		a(nl);
-		a("    {" + nl);
+		l("    /** @var DB_PD $handle */");
+		l("    public static function from_handle($handle)");
+		l("    {");
 		for (int i = 0; i < variableNames.size(); i++) {
 			String variable = variableNames.get(i);
 			String columnName = columnNames.get(i);
-			a(String.format("        $%s = $handle->f(\"%s\");", variable,
-					columnName));
-			a(nl);
+			lf("        $%s = $handle->f(\"%s\");", variable, columnName);
 		}
-		a(String.format("        return new %s(", className));
+		af("        return new %s(", className);
 		for (int i = 0; i < variableNames.size(); i++) {
 			a("$");
 			a(variableNames.get(i));
@@ -91,9 +106,9 @@ public class PhpModelClassGenerator
 				a(", ");
 			}
 		}
-		a(");" + nl);
-		a("    }" + nl);
-		a(nl);
+		l(");");
+		l("    }");
+		nl();
 
 		a("}");
 
