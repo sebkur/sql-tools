@@ -78,11 +78,7 @@ public class PhpModelClassGenerator
 
 	private String className(String name)
 	{
-		String base = name;
-		Matcher matcher = patternBacktick.matcher(name);
-		if (matcher.matches()) {
-			base = matcher.group(1);
-		}
+		String base = unpackBackticks(name);
 		if (base.startsWith("t")) {
 			base = base.substring(1);
 		}
@@ -93,12 +89,17 @@ public class PhpModelClassGenerator
 
 	private String variableName(String columnName)
 	{
-		String base = columnName;
-		Matcher matcher = patternBacktick.matcher(columnName);
-		if (matcher.matches()) {
-			base = matcher.group(1);
-		}
+		String base = unpackBackticks(columnName);
 		return base.toLowerCase();
+	}
+
+	private String unpackBackticks(String name)
+	{
+		Matcher matcher = patternBacktick.matcher(name);
+		if (matcher.matches()) {
+			return matcher.group(1);
+		}
+		return name;
 	}
 
 }
