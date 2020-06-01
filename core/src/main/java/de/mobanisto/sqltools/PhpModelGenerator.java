@@ -13,7 +13,7 @@ public class PhpModelGenerator
 
 	private static final String nl = System.getProperty("line.separator");
 
-	public void generate(CreateTable create)
+	public String generate(CreateTable create)
 	{
 		StringBuilder buffer = new StringBuilder();
 
@@ -58,7 +58,7 @@ public class PhpModelGenerator
 
 		buffer.append("}");
 
-		System.out.println(buffer.toString());
+		return buffer.toString();
 	}
 
 	private static final Pattern patternBacktick = Pattern.compile("`(.*)`");

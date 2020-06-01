@@ -2,12 +2,14 @@ package de.mobanisto.sqltools.php;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,10 +35,10 @@ public class TestGeneratePhpBrick
 	@Test
 	public void testSourcePositions() throws IOException, JSQLParserException
 	{
-		InputStream input = Thread.currentThread().getContextClassLoader()
+		InputStream inputSql = Thread.currentThread().getContextClassLoader()
 				.getResourceAsStream("mysql/create-tbrick.sql");
 
-		ANTLRInputStream antlrInput = new ANTLRInputStream(input);
+		ANTLRInputStream antlrInput = new ANTLRInputStream(inputSql);
 		CaseChangingCharStream antlrInputUpper = new CaseChangingCharStream(
 				antlrInput, true);
 		MySqlLexer lexer = new MySqlLexer(antlrInputUpper);
@@ -58,7 +60,13 @@ public class TestGeneratePhpBrick
 		CreateTable create = (CreateTable) statement;
 
 		PhpModelGenerator generator = new PhpModelGenerator();
-		generator.generate(create);
+		String code = generator.generate(create);
+
+		InputStream inputPhp = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("mysql/Brick.php");
+		String expectedCode = IOUtils.toString(inputPhp,
+				StandardCharsets.UTF_8);
+		Assert.assertEquals(expectedCode, code);
 	}
 
 }
