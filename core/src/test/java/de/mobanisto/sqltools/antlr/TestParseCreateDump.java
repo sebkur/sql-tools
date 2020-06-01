@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Assert;
 import org.junit.Test;
 
+import de.mobanisto.antlr.AntlrUtil;
 import de.mobanisto.antlr.CaseChangingCharStream;
 import de.mobanisto.antlr.mysql.MySqlLexer;
 import de.mobanisto.antlr.mysql.MySqlParser;
@@ -47,7 +48,8 @@ public class TestParseCreateDump
 
 		List<ColumnCreateTableContext> creates = finder.getList();
 		for (ColumnCreateTableContext create : creates) {
-			System.out.println(create.getText());
+			String text = AntlrUtil.getText(antlrInput, create);
+			System.out.println(text);
 		}
 	}
 
