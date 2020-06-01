@@ -24,29 +24,35 @@ public class PhpModelGenerator
 		buffer.append("{" + nl);
 		buffer.append(nl);
 
-		List<String> names = new ArrayList<>();
+		List<String> variableNames = new ArrayList<>();
 		for (ColumnDefinition definition : create.getColumnDefinitions()) {
-			names.add(variableName(definition.getColumnName()));
+			variableNames.add(variableName(definition.getColumnName()));
 		}
 
-		for (String colName : names) {
+		for (String variable : variableNames) {
 			buffer.append("    public $");
-			buffer.append(colName);
+			buffer.append(variable);
 			buffer.append(";");
 			buffer.append(nl);
 		}
 
 		buffer.append(nl);
 		buffer.append("    public function __construct(");
-		for (int i = 0; i < names.size(); i++) {
-			buffer.append(names.get(i));
-			if (i != names.size() - 1) {
+		for (int i = 0; i < variableNames.size(); i++) {
+			buffer.append("$");
+			buffer.append(variableNames.get(i));
+			if (i != variableNames.size() - 1) {
 				buffer.append(", ");
 			}
 		}
 		buffer.append(")");
 		buffer.append(nl);
 		buffer.append("    {" + nl);
+		for (String variable : variableNames) {
+			buffer.append(String.format("        $this->%s = %s;", variable,
+					variable));
+			buffer.append(nl);
+		}
 		buffer.append("    }" + nl);
 		buffer.append(nl);
 
