@@ -19,3 +19,6 @@ sourceSets {
         }
     }
 }
+
+tasks.eclipse.dependsOn generateGrammarSource
+tasks.eclipseClasspath.dependsOn generateGrammarSource
