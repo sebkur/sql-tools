@@ -2,6 +2,8 @@ package de.mobanisto.sqltools;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
@@ -15,7 +17,7 @@ public class PhpModelGenerator
 	{
 		StringBuilder buffer = new StringBuilder();
 
-		String tableName = create.getTable().getName();
+		String tableName = className(create.getTable().getName());
 
 		buffer.append("<?php" + nl + nl);
 		buffer.append("class " + tableName + nl);
@@ -24,7 +26,7 @@ public class PhpModelGenerator
 
 		List<String> names = new ArrayList<>();
 		for (ColumnDefinition definition : create.getColumnDefinitions()) {
-			names.add(definition.getColumnName());
+			names.add(variableName(definition.getColumnName()));
 		}
 
 		for (String colName : names) {
@@ -51,6 +53,33 @@ public class PhpModelGenerator
 		buffer.append("}");
 
 		System.out.println(buffer.toString());
+	}
+
+	private static final Pattern patternBacktick = Pattern.compile("`(.*)`");
+
+	private String className(String name)
+	{
+		String base = name;
+		Matcher matcher = patternBacktick.matcher(name);
+		if (matcher.matches()) {
+			base = matcher.group(1);
+		}
+		if (base.startsWith("t")) {
+			base = base.substring(1);
+		}
+		String first = base.substring(0, 1);
+		String remainder = base.substring(1);
+		return first.toUpperCase() + remainder;
+	}
+
+	private String variableName(String columnName)
+	{
+		String base = columnName;
+		Matcher matcher = patternBacktick.matcher(columnName);
+		if (matcher.matches()) {
+			base = matcher.group(1);
+		}
+		return base.toLowerCase();
 	}
 
 }
