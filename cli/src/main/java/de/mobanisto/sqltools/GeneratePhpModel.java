@@ -88,10 +88,9 @@ public class GeneratePhpModel
 		Statement statement = CCJSqlParserUtil.parse(text);
 		CreateTable create = (CreateTable) statement;
 
-		String tableName = create.getTable().getName();
-		System.out.println(tableName);
-
-		String code = generator.generate(create);
+		ClassResult result = generator.generate(create);
+		String className = result.getClassName();
+		System.out.println(className);
 	}
 
 }

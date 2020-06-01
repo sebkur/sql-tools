@@ -19,6 +19,7 @@ import de.mobanisto.antlr.mysql.MySqlLexer;
 import de.mobanisto.antlr.mysql.MySqlParser;
 import de.mobanisto.antlr.mysql.MySqlParser.ColumnCreateTableContext;
 import de.mobanisto.antlr.mysql.MySqlParser.RootContext;
+import de.mobanisto.sqltools.ClassResult;
 import de.mobanisto.sqltools.CreateTableFinder;
 import de.mobanisto.sqltools.PhpModelGenerator;
 import net.sf.jsqlparser.JSQLParserException;
@@ -60,13 +61,13 @@ public class TestGeneratePhpBrick
 		CreateTable create = (CreateTable) statement;
 
 		PhpModelGenerator generator = new PhpModelGenerator();
-		String code = generator.generate(create);
+		ClassResult result = generator.generate(create);
 
 		InputStream inputPhp = Thread.currentThread().getContextClassLoader()
 				.getResourceAsStream("mysql/Brick.php");
 		String expectedCode = IOUtils.toString(inputPhp,
 				StandardCharsets.UTF_8);
-		Assert.assertEquals(expectedCode, code);
+		Assert.assertEquals(expectedCode, result.getContent());
 	}
 
 }

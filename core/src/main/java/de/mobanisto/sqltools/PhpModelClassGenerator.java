@@ -18,7 +18,7 @@ public class PhpModelClassGenerator extends BasePhpGenerator
 		this.create = create;
 	}
 
-	public String generate()
+	public ClassResult generate()
 	{
 		buffer = new StringBuilder();
 
@@ -77,7 +77,7 @@ public class PhpModelClassGenerator extends BasePhpGenerator
 
 		a("}");
 
-		return buffer.toString();
+		return new ClassResult(className, buffer.toString());
 	}
 
 	private static final Pattern patternBacktick = Pattern.compile("`(.*)`");
