@@ -8,45 +8,14 @@ import java.util.regex.Pattern;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
 
-public class PhpModelClassGenerator
+public class PhpModelClassGenerator extends BasePhpGenerator
 {
-
-	private static final String nl = System.getProperty("line.separator");
 
 	private CreateTable create;
 
 	public PhpModelClassGenerator(CreateTable create)
 	{
 		this.create = create;
-	}
-
-	private StringBuilder buffer;
-
-	private void a(String string)
-	{
-		buffer.append(string);
-	}
-
-	private void l(String string)
-	{
-		buffer.append(string);
-		buffer.append(nl);
-	}
-
-	private void af(String string, Object... args)
-	{
-		buffer.append(String.format(string, args));
-	}
-
-	private void lf(String string, Object... args)
-	{
-		buffer.append(String.format(string, args));
-		buffer.append(nl);
-	}
-
-	private void nl()
-	{
-		buffer.append(nl);
 	}
 
 	public String generate()
@@ -62,11 +31,7 @@ public class PhpModelClassGenerator
 			variableNames.add(variableName(definition.getColumnName()));
 		}
 
-		l("<?php");
-		nl();
-		l("class " + className);
-		l("{");
-		nl();
+		phpClass(className);
 
 		for (String variable : variableNames) {
 			lf("    public $%s;", variable);
