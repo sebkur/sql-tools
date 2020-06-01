@@ -49,7 +49,7 @@ public class PhpModelGenerator
 		buffer.append(nl);
 		buffer.append("    {" + nl);
 		for (String variable : variableNames) {
-			buffer.append(String.format("        $this->%s = %s;", variable,
+			buffer.append(String.format("        $this->%s = $%s;", variable,
 					variable));
 			buffer.append(nl);
 		}
