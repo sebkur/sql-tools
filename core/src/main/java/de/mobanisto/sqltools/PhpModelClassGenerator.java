@@ -3,6 +3,7 @@ package de.mobanisto.sqltools;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.mobanisto.sqltools.mapping.TableMapping;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
 
@@ -10,35 +11,43 @@ public class PhpModelClassGenerator extends BasePhpGenerator
 {
 
 	private CreateTable create;
-	private String className;
+	private TableMapping tableMapping;
 
 	public PhpModelClassGenerator(CreateTable create)
 	{
 		this.create = create;
 	}
 
-	public PhpModelClassGenerator(CreateTable create, String className)
+	public PhpModelClassGenerator(CreateTable create, TableMapping tableMapping)
 	{
 		this.create = create;
-		this.className = className;
+		this.tableMapping = tableMapping;
 	}
 
 	public ClassResult generate()
 	{
 		buffer = new StringBuilder();
 
-		if (className == null) {
-			className = className(create.getTable().getName());
+		if (tableMapping == null) {
+			String tableName = create.getTable().getName();
+			tableMapping = new TableMapping(
+					MysqlUtil.unpackBackticks(tableName), className(tableName));
 		}
 
 		List<String> columnNames = new ArrayList<>();
 		List<String> variableNames = new ArrayList<>();
 		for (ColumnDefinition definition : create.getColumnDefinitions()) {
-			columnNames.add(columnName(definition.getColumnName()));
-			variableNames.add(variableName(definition.getColumnName()));
+			String columnName = columnName(definition.getColumnName());
+			columnNames.add(columnName);
+			String variable = tableMapping.getColumnToVariable()
+					.get(columnName);
+			if (variable == null) {
+				variable = variableName(columnName);
+			}
+			variableNames.add(variable);
 		}
 
-		phpClass(className, true);
+		phpClass(tableMapping.getClassName(), true);
 
 		for (String variable : variableNames) {
 			lf("    public $%s;", variable);
@@ -70,7 +79,7 @@ public class PhpModelClassGenerator extends BasePhpGenerator
 			String columnName = columnNames.get(i);
 			lf("        $%s = $handle->f(\"%s\");", variable, columnName);
 		}
-		af("        return new %s(", className);
+		af("        return new %s(", tableMapping.getClassName());
 		for (int i = 0; i < variableNames.size(); i++) {
 			a("$");
 			a(variableNames.get(i));
@@ -84,7 +93,7 @@ public class PhpModelClassGenerator extends BasePhpGenerator
 
 		a("}");
 
-		return new ClassResult(className, buffer.toString());
+		return new ClassResult(tableMapping.getClassName(), buffer.toString());
 	}
 
 	private String className(String name)

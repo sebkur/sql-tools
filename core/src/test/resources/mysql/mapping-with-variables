@@ -1,0 +1,2 @@
+include tblog, Blog, variables(id_sprache→sprache, id_author→author)
+include tbrick, Brick, variables(flag_linkuse→linkuse)

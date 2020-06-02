@@ -20,6 +20,7 @@ import de.mobanisto.antlr.mysql.MySqlParser.ColumnCreateTableContext;
 import de.mobanisto.antlr.mysql.MySqlParser.RootContext;
 import de.mobanisto.sqltools.mapping.Mapping;
 import de.mobanisto.sqltools.mapping.MappingReader;
+import de.mobanisto.sqltools.mapping.TableMapping;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
@@ -131,17 +132,17 @@ public class GeneratePhpModel
 		}
 
 		if (mapping.getMapped().containsKey(tableName)) {
-			String className = mapping.getMapped().get(tableName);
+			TableMapping tableMapping = mapping.getMapped().get(tableName);
 			System.out.println(String.format("Table mapped: %s → %s", tableName,
-					className));
+					tableMapping.getClassName()));
 			return;
 		}
 
 		if (mapping.getIncludes().containsKey(tableName)) {
-			String className = mapping.getIncludes().get(tableName);
+			TableMapping tableMapping = mapping.getMapped().get(tableName);
 			System.out.println(String.format("Including table: %s → %s",
-					tableName, className));
-			ClassResult result = generator.generate(create, className);
+					tableName, tableMapping.getClassName()));
+			ClassResult result = generator.generate(create, tableMapping);
 			write(result);
 			return;
 		}

@@ -11,9 +11,9 @@ public class Mapping
 {
 
 	@Getter
-	Map<String, String> includes = new HashMap<>();
+	Map<String, TableMapping> includes = new HashMap<>();
 	@Getter
-	Map<String, String> mapped = new HashMap<>();
+	Map<String, TableMapping> mapped = new HashMap<>();
 	@Getter
 	Set<String> excludes = new HashSet<>();
 

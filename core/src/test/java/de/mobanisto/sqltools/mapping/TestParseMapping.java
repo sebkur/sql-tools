@@ -20,13 +20,15 @@ public class TestParseMapping
 		Assert.assertEquals(1, mapping.getMapped().size());
 		Assert.assertEquals(2, mapping.getExcludes().size());
 
-		Assert.assertEquals("Blog", mapping.getIncludes().get("tblog"));
-		Assert.assertEquals("Brick", mapping.getIncludes().get("tbrick"));
+		Assert.assertEquals("Blog",
+				mapping.getIncludes().get("tblog").getClassName());
+		Assert.assertEquals("Brick",
+				mapping.getIncludes().get("tbrick").getClassName());
 		Assert.assertEquals("BrickText",
-				mapping.getIncludes().get("tbrick_text"));
+				mapping.getIncludes().get("tbrick_text").getClassName());
 
 		Assert.assertEquals("BrickText",
-				mapping.getMapped().get("tbrick_text_archiv"));
+				mapping.getMapped().get("tbrick_text_archiv").getClassName());
 
 		Assert.assertTrue(mapping.getExcludes().contains("tblog2personen"));
 		Assert.assertTrue(mapping.getExcludes().contains("tblog2templates"));

@@ -1,5 +1,6 @@
 package de.mobanisto.sqltools;
 
+import de.mobanisto.sqltools.mapping.TableMapping;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
 
 public class PhpModelGenerator
@@ -10,9 +11,9 @@ public class PhpModelGenerator
 		return new PhpModelClassGenerator(create).generate();
 	}
 
-	public ClassResult generate(CreateTable create, String className)
+	public ClassResult generate(CreateTable create, TableMapping tableMapping)
 	{
-		return new PhpModelClassGenerator(create, className).generate();
+		return new PhpModelClassGenerator(create, tableMapping).generate();
 	}
 
 }

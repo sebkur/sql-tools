@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.common.base.Splitter;
 
@@ -36,30 +38,60 @@ public class MappingReader
 		return mapping;
 	}
 
-	private static Splitter splitter = Splitter.on(",").limit(2).trimResults();
+	private static Splitter splitterDef = Splitter.on(",").limit(3)
+			.trimResults();
+	private static Pattern patternVariables = Pattern
+			.compile("variables\\((.*)\\)");
+
+	private static Splitter splitterComma = Splitter.on(",").trimResults();
+	private static Splitter splitterArrow = Splitter.on("→").trimResults();
 
 	private static void include(Mapping mapping, String def)
 	{
-		List<String> parts = splitter.splitToList(def);
-		if (parts.size() != 2) {
-			System.out.println(String.format("Invalid include: '%s'", def));
+		TableMapping tableMapping = parseInclude(def);
+		if (tableMapping == null) {
 			return;
 		}
-		String tableName = parts.get(0);
-		String className = parts.get(1);
-		mapping.includes.put(tableName, className);
+		mapping.includes.put(tableMapping.getTableName(), tableMapping);
 	}
 
 	private static void map(Mapping mapping, String def)
 	{
-		List<String> parts = splitter.splitToList(def);
-		if (parts.size() != 2) {
-			System.out.println(String.format("Invalid map: '%s'", def));
+		TableMapping tableMapping = parseInclude(def);
+		if (tableMapping == null) {
 			return;
+		}
+		mapping.mapped.put(tableMapping.getTableName(), tableMapping);
+	}
+
+	private static TableMapping parseInclude(String def)
+	{
+		List<String> parts = splitterDef.splitToList(def);
+		if (parts.size() != 2 && parts.size() != 3) {
+			System.out.println(String.format("Invalid include: '%s'", def));
+			return null;
 		}
 		String tableName = parts.get(0);
 		String className = parts.get(1);
-		mapping.mapped.put(tableName, className);
+		TableMapping mapping = new TableMapping(tableName, className);
+		if (parts.size() == 3) {
+			String extra = parts.get(2);
+			Matcher matcher = patternVariables.matcher(extra);
+			if (matcher.matches()) {
+				parseVariables(mapping, matcher.group(1));
+			}
+		}
+		return mapping;
+	}
+
+	private static void parseVariables(TableMapping mapping, String def)
+	{
+		for (String part : splitterComma.split(def)) {
+			List<String> parts = splitterArrow.splitToList(part);
+			String from = parts.get(0);
+			String to = parts.get(1);
+			mapping.mapColumnToVariable(from, to);
+		}
 	}
 
 	private static void exclude(Mapping mapping, String def)
