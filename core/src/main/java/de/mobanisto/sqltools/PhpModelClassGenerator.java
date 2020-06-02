@@ -38,7 +38,7 @@ public class PhpModelClassGenerator extends BasePhpGenerator
 			variableNames.add(variableName(definition.getColumnName()));
 		}
 
-		phpClass(className);
+		phpClass(className, true);
 
 		for (String variable : variableNames) {
 			lf("    public $%s;", variable);

@@ -1,5 +1,6 @@
 <?php
 
+/** This file is genereated, DO NOT EDIT */
 class Brick
 {
 
