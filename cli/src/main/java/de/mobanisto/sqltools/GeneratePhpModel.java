@@ -139,7 +139,7 @@ public class GeneratePhpModel
 		}
 
 		if (mapping.getIncludes().containsKey(tableName)) {
-			TableMapping tableMapping = mapping.getMapped().get(tableName);
+			TableMapping tableMapping = mapping.getIncludes().get(tableName);
 			System.out.println(String.format("Including table: %s → %s",
 					tableName, tableMapping.getClassName()));
 			ClassResult result = generator.generate(create, tableMapping);
