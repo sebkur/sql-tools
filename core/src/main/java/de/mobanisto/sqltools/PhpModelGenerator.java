@@ -10,4 +10,9 @@ public class PhpModelGenerator
 		return new PhpModelClassGenerator(create).generate();
 	}
 
+	public ClassResult generate(CreateTable create, String className)
+	{
+		return new PhpModelClassGenerator(create, className).generate();
+	}
+
 }

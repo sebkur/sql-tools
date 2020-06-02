@@ -13,10 +13,15 @@ public class MappingReader
 
 	public static Mapping read(InputStream input) throws IOException
 	{
-		Mapping mapping = new Mapping();
-
 		InputStreamReader reader = new InputStreamReader(input);
 		BufferedReader br = new BufferedReader(reader);
+		return read(br);
+	}
+
+	public static Mapping read(BufferedReader br) throws IOException
+	{
+		Mapping mapping = new Mapping();
+
 		String line;
 		while ((line = br.readLine()) != null) {
 			if (line.startsWith("include ")) {

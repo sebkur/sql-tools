@@ -10,17 +10,26 @@ public class PhpModelClassGenerator extends BasePhpGenerator
 {
 
 	private CreateTable create;
+	private String className;
 
 	public PhpModelClassGenerator(CreateTable create)
 	{
 		this.create = create;
 	}
 
+	public PhpModelClassGenerator(CreateTable create, String className)
+	{
+		this.create = create;
+		this.className = className;
+	}
+
 	public ClassResult generate()
 	{
 		buffer = new StringBuilder();
 
-		String className = className(create.getTable().getName());
+		if (className == null) {
+			className = className(create.getTable().getName());
+		}
 
 		List<String> columnNames = new ArrayList<>();
 		List<String> variableNames = new ArrayList<>();
