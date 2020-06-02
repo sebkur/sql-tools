@@ -2,8 +2,6 @@ package de.mobanisto.sqltools;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
@@ -80,11 +78,9 @@ public class PhpModelClassGenerator extends BasePhpGenerator
 		return new ClassResult(className, buffer.toString());
 	}
 
-	private static final Pattern patternBacktick = Pattern.compile("`(.*)`");
-
 	private String className(String name)
 	{
-		String base = unpackBackticks(name);
+		String base = MysqlUtil.unpackBackticks(name);
 		if (base.startsWith("t")) {
 			base = base.substring(1);
 		}
@@ -95,22 +91,13 @@ public class PhpModelClassGenerator extends BasePhpGenerator
 
 	private String columnName(String columnName)
 	{
-		return unpackBackticks(columnName);
+		return MysqlUtil.unpackBackticks(columnName);
 	}
 
 	private String variableName(String columnName)
 	{
-		String base = unpackBackticks(columnName);
+		String base = MysqlUtil.unpackBackticks(columnName);
 		return base.toLowerCase();
-	}
-
-	private String unpackBackticks(String name)
-	{
-		Matcher matcher = patternBacktick.matcher(name);
-		if (matcher.matches()) {
-			return matcher.group(1);
-		}
-		return name;
 	}
 
 }
