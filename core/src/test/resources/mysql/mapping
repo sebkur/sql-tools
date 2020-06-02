@@ -1,0 +1,8 @@
+include tblog, Blog
+include tbrick, Brick
+include tbrick_text, BrickText
+
+map tbrick_text_archiv, BrickText
+
+exclude tblog2personen
+exclude tblog2templates
