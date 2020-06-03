@@ -1,5 +1,7 @@
 <?php
 
+namespace model;
+
 /** This file is genereated, DO NOT EDIT */
 class Brick
 {
