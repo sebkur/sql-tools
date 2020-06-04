@@ -1,4 +1,4 @@
-package de.mobanisto.sqltools;
+package de.mobanisto.sqltools.php;
 
 import lombok.Getter;
 

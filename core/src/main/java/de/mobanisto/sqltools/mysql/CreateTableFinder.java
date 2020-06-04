@@ -1,4 +1,4 @@
-package de.mobanisto.sqltools;
+package de.mobanisto.sqltools.mysql;
 
 import java.util.ArrayList;
 import java.util.List;

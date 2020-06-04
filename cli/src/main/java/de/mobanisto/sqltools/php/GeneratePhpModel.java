@@ -1,4 +1,4 @@
-package de.mobanisto.sqltools;
+package de.mobanisto.sqltools.php;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +21,8 @@ import de.mobanisto.antlr.mysql.MySqlParser.RootContext;
 import de.mobanisto.sqltools.mapping.Mapping;
 import de.mobanisto.sqltools.mapping.MappingReader;
 import de.mobanisto.sqltools.mapping.TableMapping;
+import de.mobanisto.sqltools.mysql.CreateTableFinder;
+import de.mobanisto.sqltools.mysql.MysqlUtil;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;

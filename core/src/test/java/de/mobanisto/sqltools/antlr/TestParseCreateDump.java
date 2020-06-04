@@ -17,7 +17,7 @@ import de.mobanisto.antlr.mysql.MySqlLexer;
 import de.mobanisto.antlr.mysql.MySqlParser;
 import de.mobanisto.antlr.mysql.MySqlParser.ColumnCreateTableContext;
 import de.mobanisto.antlr.mysql.MySqlParser.RootContext;
-import de.mobanisto.sqltools.CreateTableFinder;
+import de.mobanisto.sqltools.mysql.CreateTableFinder;
 
 public class TestParseCreateDump
 {

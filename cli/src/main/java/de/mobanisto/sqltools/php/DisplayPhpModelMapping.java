@@ -1,4 +1,4 @@
-package de.mobanisto.sqltools;
+package de.mobanisto.sqltools.php;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +17,8 @@ import de.mobanisto.antlr.mysql.MySqlLexer;
 import de.mobanisto.antlr.mysql.MySqlParser;
 import de.mobanisto.antlr.mysql.MySqlParser.ColumnCreateTableContext;
 import de.mobanisto.antlr.mysql.MySqlParser.RootContext;
+import de.mobanisto.sqltools.mysql.CreateTableFinder;
+import de.mobanisto.sqltools.mysql.MysqlUtil;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;

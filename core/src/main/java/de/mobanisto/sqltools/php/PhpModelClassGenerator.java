@@ -1,9 +1,10 @@
-package de.mobanisto.sqltools;
+package de.mobanisto.sqltools.php;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.mobanisto.sqltools.mapping.TableMapping;
+import de.mobanisto.sqltools.mysql.MysqlUtil;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
 

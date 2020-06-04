@@ -1,4 +1,4 @@
-package de.mobanisto.sqltools;
+package de.mobanisto.sqltools.php;
 
 import de.mobanisto.sqltools.mapping.TableMapping;
 import net.sf.jsqlparser.statement.create.table.CreateTable;

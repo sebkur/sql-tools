@@ -2,6 +2,6 @@
 
 DIR=$(dirname $0)
 CMD="$DIR/sql-tools.sh"
-CLASS="de.mobanisto.sqltools.DisplayPhpModelMapping"
+CLASS="de.mobanisto.sqltools.php.DisplayPhpModelMapping"
 
 exec "$CMD" "$CLASS" "$@"

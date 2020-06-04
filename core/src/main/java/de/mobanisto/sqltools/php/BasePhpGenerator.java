@@ -1,4 +1,6 @@
-package de.mobanisto.sqltools;
+package de.mobanisto.sqltools.php;
+
+import de.mobanisto.sqltools.generator.BaseGenerator;
 
 public class BasePhpGenerator extends BaseGenerator
 {
