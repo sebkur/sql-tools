@@ -60,7 +60,7 @@ public class InsertFilter
 	{
 
 		private SqlStatementContext last = null;
-		private Token lastSemi = null;
+		private int nextFrom = 0;
 
 		@Override
 		public void enterSqlStatement(SqlStatementContext ctx)
@@ -91,7 +91,7 @@ public class InsertFilter
 
 			CharStream cs = ctx.getStart().getInputStream();
 			int size = cs.size();
-			Interval interval = new Interval(lastSemi.getStopIndex() + 1, size);
+			Interval interval = new Interval(nextFrom, size);
 
 			String text = cs.getText(interval);
 			dataOutput.writeBytes(text);
@@ -119,13 +119,9 @@ public class InsertFilter
 			Token tokenNextSemi = tokenStream
 					.get(ctx.getStop().getTokenIndex() + offsetNextSemi);
 
-			int from = 0;
-			if (last != null) {
-				from = lastSemi.getStopIndex() + 1;
-			}
 			int to = ctx.getStart().getStartIndex() - 1;
 
-			Interval intervalBefore = new Interval(from, to);
+			Interval intervalBefore = new Interval(nextFrom, to);
 			String textBefore = charStream.getText(intervalBefore);
 			dataOutput.writeBytes(textBefore);
 
@@ -135,10 +131,31 @@ public class InsertFilter
 
 			if (!skipStatement) {
 				dataOutput.writeBytes(textStatement);
+				nextFrom = tokenNextSemi.getStopIndex() + 1;
+			} else {
+				nextFrom = skip(tokenNextSemi);
 			}
 
 			last = ctx;
-			lastSemi = tokenNextSemi;
+		}
+
+		private int skip(Token tokenFrom)
+		{
+			int offset = 1;
+			while (true) {
+				Token token = tokenStream
+						.get(tokenFrom.getTokenIndex() + offset);
+				if (token.getChannel() != Token.HIDDEN_CHANNEL) {
+					break;
+				}
+				if (token.getType() != MySqlLexer.SPACE) {
+					break;
+				}
+				offset += 1;
+			}
+			Token tokenNextSemi = tokenStream
+					.get(tokenFrom.getTokenIndex() + offset);
+			return tokenNextSemi.getStartIndex();
 		}
 
 	}
