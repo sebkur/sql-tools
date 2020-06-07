@@ -59,7 +59,7 @@ public class TestParseCreateTBrick
 		MySqlLexer lexer = new MySqlLexer(antlrInput);
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 		MySqlParser parser = new MySqlParser(tokenStream);
-		parser.setErrorHandler(new BailErrorStrategy());
+		parser.setErrorHandler(new SilentBailErrorStrategy());
 
 		parser.root();
 	}
