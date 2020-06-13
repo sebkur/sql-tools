@@ -2,7 +2,7 @@
 
 namespace model;
 
-/** This file is genereated, DO NOT EDIT */
+/** This file is generated, DO NOT EDIT */
 class Brick
 {
 

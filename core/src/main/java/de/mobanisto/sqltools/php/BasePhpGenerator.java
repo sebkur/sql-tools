@@ -13,7 +13,7 @@ public class BasePhpGenerator extends BaseGenerator
 		l("namespace " + namespace + ";");
 		nl();
 		if (commentGenerated) {
-			l("/** This file is genereated, DO NOT EDIT */");
+			l("/** This file is generated, DO NOT EDIT */");
 		}
 		l("class " + className);
 		l("{");
