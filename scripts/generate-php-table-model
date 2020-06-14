@@ -1,0 +1,7 @@
+#!/bin/bash
+
+DIR=$(dirname $0)
+CMD="$DIR/sql-tools.sh"
+CLASS="de.mobanisto.sqltools.php.GeneratePhpTableModel"
+
+exec "$CMD" "$CLASS" "$@"
