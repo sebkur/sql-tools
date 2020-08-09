@@ -3,24 +3,10 @@ if (project.hasProperty("topobyte")) {
         + '/.gradle/topobyte.gradle'
 }
 
-apply plugin: 'antlr'
-
 dependencies {
+    compile 'de.mobanisto.antlr:mysql-parser:1.0.0'
     compile 'com.github.jsqlparser:jsqlparser:3.1'
     compile 'com.google.guava:guava:19.0'
     testCompile 'commons-io:commons-io:2.7'
     testCompile 'junit:junit:4.13'
-
-    antlr 'org.antlr:antlr4:4.6'
 }
-
-sourceSets {
-    main {
-        java {
-            srcDirs += ["${buildDir}/generated-src/antlr/main"]
-        }
-    }
-}
-
-tasks.eclipse.dependsOn generateGrammarSource
-tasks.eclipseClasspath.dependsOn generateGrammarSource
