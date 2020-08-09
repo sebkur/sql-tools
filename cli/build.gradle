@@ -1,5 +1,7 @@
 dependencies {
     compile project(':sql-tools-core')
+
+    runtime 'ch.qos.logback:logback-classic:1.2.3'
 }
 
 task copyJars(type: Copy) {

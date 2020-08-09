@@ -7,6 +7,9 @@ dependencies {
     compile 'de.mobanisto.antlr:mysql-parser:1.0.0'
     compile 'com.github.jsqlparser:jsqlparser:3.1'
     compile 'com.google.guava:guava:19.0'
+    compile 'de.topobyte:luqe-jdbc:0.2.1'
+    runtime 'org.xerial:sqlite-jdbc:3.27.2.1'
+
     testCompile 'commons-io:commons-io:2.7'
     testCompile 'junit:junit:4.13'
 }
