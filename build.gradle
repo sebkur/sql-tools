@@ -1,9 +1,9 @@
 plugins {
-    id 'io.franzbecker.gradle-lombok' version '1.14'
+    id("io.freefair.lombok") version "8.0.1" apply false
 }
 
 wrapper {
-    gradleVersion = '5.2.1'
+    gradleVersion = '7.6.2'
 }
 
 allprojects {
@@ -11,23 +11,25 @@ allprojects {
     version = pVersion
 }
 
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'eclipse'
-    apply plugin: 'maven'
-    apply plugin: 'io.franzbecker.gradle-lombok'
+configure([project(':sql-tools-core')]){
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+}
 
-    lombok {
-        version = '1.18.2'
-        sha256 = ""
-    }
+configure([project(':sql-tools-cli')]){
+    apply plugin: 'java'
+}
+
+subprojects {
+    apply plugin: 'eclipse'
+    apply plugin: 'io.freefair.lombok'
 
     repositories {
         maven {
-            url 'http://mvn.topobyte.de'
+            url 'https://mvn.topobyte.de'
         }
         maven {
-            url 'http://mvn.slimjars.com'
+            url 'https://mvn.slimjars.com'
         }
         mavenCentral()
     }

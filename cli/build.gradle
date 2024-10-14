@@ -1,7 +1,7 @@
 dependencies {
-    compile project(':sql-tools-core')
+    implementation project(':sql-tools-core')
 
-    runtime 'ch.qos.logback:logback-classic:1.2.3'
+    runtimeOnly 'ch.qos.logback:logback-classic:1.2.3'
 }
 
 task copyJars(type: Copy) {
@@ -11,7 +11,7 @@ task copyJars(type: Copy) {
 
 task copyDeps(type: Copy) {
     into "$buildDir/lib-run"
-    from configurations.runtime
+    from configurations.runtimeClasspath
 }
 
 task createRuntime(dependsOn: [copyJars, copyDeps]) {
